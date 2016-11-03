@@ -14,7 +14,7 @@ module Sunspot
         @components << join = Join.new(keywords, target, from, to)
         join
       end
-      
+
       def add_location(field, lat, lng, options)
         @components << location = Geo.new(field, lat, lng, options)
         location
@@ -31,12 +31,10 @@ module Sunspot
       end
 
       def to_params
-        if @components.length == 0
+        if @components.empty?
           {}
-        elsif @components.length > 1 or @components.find { |c| c.is_a?(Join) }
-          to_subquery.merge(:fl => '* score')
         else
-          @components.first.to_params.merge(:fl => '* score')
+          to_subquery.merge(fl: '* score')
         end
       end
 
